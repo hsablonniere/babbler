@@ -1,0 +1,62 @@
+html, body {
+    background: #333;
+    margin: 0;
+}
+
+.user-name,
+.user-start-stop,
+.user-remove {
+    background: #FFF;
+    border: none;
+    color: #000;
+    font: 20px/2 Arial, sans-serif;
+    padding: 0 10px;
+}
+
+.user {
+    background: #269;
+    border: none;
+    margin: 10px;
+    padding: 10px;
+}
+
+.user-add {
+    background: transparent;
+    border: none;
+    color: #000;
+    font: 20px/2 Arial, sans-serif;
+    width: 100%;
+}
+
+.user-counter {
+    color: #FFF;
+    display: inline;
+    font: bold 30px/1.33 Arial, sans-serif;
+    padding: 0 10px;
+}
+
+.user-add-block {
+    border: none;
+    padding: 0;
+    margin: 10px 0;
+}
+
+.user-add {
+    color: #777;
+    font: bold 30px/1.33 Arial, sans-serif;
+}
+
+.user-name {
+    border-radius: 0;
+    width: 150px;
+}
+
+.user-remove {
+  color: #269;
+    float: right;
+  font-weight: bold;
+}
+
+.counting {
+    background: orange;
+}
