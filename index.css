@@ -17,6 +17,10 @@ button {
   box-sizing: border-box;
 }
 
+button {
+  cursor: pointer;
+}
+
 /* babbler */
 
 @-ms-viewport { width: device-width; }
@@ -109,6 +113,7 @@ body {
 }
 
 .help-message .credits {
+  margin-top: 15px;
   text-align: right;
 }
 
@@ -120,7 +125,8 @@ body {
 }
 
 .item {
-  background: #00A0B0;  
+  background: #00A0B0;
+  cursor: pointer;
 }
 
 .item .item-name,
