@@ -2,22 +2,33 @@
 <html>
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width">
+<meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>Babbler</title>
 <link rel="stylesheet" href="./index.css">
 </head>
 <body>
-<h1>Babbler</h1>
-<div class="user-add-block">
-  <button class="user-add">add user</button>
+<header class="main-header">
+  <h1 class="app-title">Babbler</h1>
+  <div class="total-counter"></div>
+  <div class="total-percent"></div>
+  <button class="help">?</button>
+</header>
+<div class="help-message hidden">
+  <p>Babbler is a very simple tool to track how much time people talk during a meeting.</p>
+  <p>To add someone, just type a name in the last input text.</p>
+  <p>To remove someone, click/tap on the remove button with a ✕.</p>
+  <p>To start/stop someone's timer, click/tap on his timer or percent.</p>
+  <p class="credits"><a href="https://twitter.com/hsablonniere" class="link">@hsablonniere</a></p>
 </div>
-<script type="text/tpl" class="user-tpl">
-  <div id="${id}" class="user">
-    <input type="text" class="user-name" value="${name}" spellcheck="false">
-    <div class="user-counter">${counter}</div>
-    <button class="user-remove">✕</button>
+<script type="text/tpl" class="item-tpl">
+  <div id="${id}" class="item">
+    <div class="item-name-wrapper"><input type="text" class="item-name" value="${name}" spellcheck="false" placeholder="name..."></div>
+    <div class="item-counter">${counter}</div>
+    <div class="item-percent"></div>
+    <button class="item-remove">✕</button>
   </div>
 </script>
-<script src="http://code.jquery.com/jquery-1.8.2.min.js"></script>
+<script src="//code.jquery.com/jquery-1.8.2.min.js"></script>
+<script src="./index.js"></script>
 </body>
 </html>

@@ -1,111 +1,196 @@
-var getRandomId = function () {
-    return Math.floor(Math.random()*1e32).toString(36) + Math.floor(Math.random()*1e32).toString(36);
-};
+(function () {
+  var init,
+      itemTpl,
+      items,
+      getRandomId,
+      timeToMinSec,
+      updateStorageAndDisplay,
+      addItem,
+      addNewItem,
+      $countingItem,
+      countingItem,
+      countingIntervalId,
+      countingInitValue,
+      countingInitDate;
 
-var updateStorage = function () {
-    localStorage.setItem('groupTimer.users', JSON.stringify(users));
-};
+  init = function () {
+    // Load item template
+    itemTpl = $('.item-tpl').text();
+    $('.item-tpl').remove();
 
-var formatTime = function (time) {
+    // Initialize items
+    items = JSON.parse(localStorage.getItem('babbler.items')) || {};
+    for (var itemId in items) {
+      if (items.hasOwnProperty(itemId)) {
+        addItem(items[itemId]);
+      }
+    }
+    addNewItem();
+    updateStorageAndDisplay();
+  };
+
+  getRandomId = function () {
+    return Math.floor(Math.random() * 1e32).toString(36);
+  };
+
+  timeToMinSec = function (time) {
     var min = Math.floor(time / 60000),
         sec = Math.floor(time / 1000) - min * 60;
-    
-    if (min < 10) {
-        min = '0' + min;
-    }
-    
-    if (sec < 10) {
-        sec = '0' + sec;
-    }
-    
-    return min + ':' + sec;
-};
 
-var addUser = function (id, name, counter) {
-    id = id || getRandomId();
-    name = name || '';
-    counter = counter || 0;
-    
-    var tpl = $('.user-tpl').text();
-    tpl = tpl.replace('${id}', id);
-    tpl = tpl.replace('${name}', name);
-    tpl = tpl.replace('${counter}', formatTime(counter));
-    
-    $(tpl).insertBefore('.user-add-block').children('.user-name').focus();
-    
-    $('.user-add-block')[0].scrollIntoView(true);
-    
-    return {
+    if (min < 10) {
+      min = '0' + min;
+    }
+
+    if (sec < 10) {
+      sec = '0' + sec;
+    }
+
+    return min + ':' + sec;
+  };
+
+  updateStorageAndDisplay = function () {
+    var totalCounter = 0;
+
+    // Total counter
+    if (Object.keys(items).length > 0) {
+      totalCounter = Object.keys(items)
+          .map(function (itemId) {
+            return items[itemId].counter;
+          })
+          .reduce(function (counterA, counterB) {
+            return counterA + counterB;
+          });
+    }
+
+    // Total percent
+    if (Object.keys(items).length > 1 && totalCounter > 1) {
+      $('.total-counter').html(timeToMinSec(totalCounter));
+      $('.total-percent').html('100%');
+    } else {
+      $('.total-counter').html('');
+      $('.total-percent').html('');
+    }
+
+    // All the percents
+    for (var id in items) {
+      if (Object.keys(items).length > 1) {
+        if (totalCounter > 0) {
+          $('#' + id + ' .item-percent').html((items[id].counter * 100 / totalCounter).toFixed(0) + '%');
+        } else {
+          $('#' + id + ' .item-percent').html('');
+        }
+      } else {
+        $('#' + id + ' .item-percent').html('');
+      }
+    }
+
+    // Storage
+    localStorage.setItem('babbler.items', JSON.stringify(items));
+  };
+
+  // Add item to the DOM
+  addItem = function (item) {
+    var tpl = itemTpl;
+
+    tpl = tpl.replace('${id}', item.id);
+    tpl = tpl.replace('${name}', item.name);
+    tpl = tpl.replace('${counter}', timeToMinSec(item.counter));
+    tpl = tpl.replace('${percent}', '0%');
+
+    $(tpl).appendTo('body');
+  };
+
+  addNewItem = function () {
+    addItem({
+      id: 'new',
+      'name': '',
+      counter: 0
+    });
+  };
+
+  // Help
+  $('.help').on('click', function () {
+    $('.help-message').toggleClass('hidden');
+  });
+
+  // Item add or rename
+  $('body').on('change keyup blur', '.item-name', function (ev) {
+    var $item = $(this).parents('.item'),
+        id = $item.attr('id'),
+        name = $(this).val(),
+        item = items[id];
+
+    if (name !== '' && id === 'new') {
+      id = getRandomId();
+
+      items[id] = {
         id: id,
         name: name,
-        counter: counter
-    };
-};
+        counter: 0
+      };
+      updateStorageAndDisplay();
 
-var users = JSON.parse(localStorage.getItem('groupTimer.users')) || {};
-
-for (var userId in users) {
-    addUser(users[userId].id, users[userId].name, users[userId].counter);
-}
-$('input').blur();
-
-$('.user-add').on('click', function (ev) {
-    var user = addUser();
-    users[user.id] = user;
-    updateStorage();
-});
-
-$('body').on('click', '.user-remove', function (ev) {
-    delete users[$(this).parents('.user').attr('id')];
-    $(this).parents('.user').remove();
-    updateStorage();
-});
-
-$('body').on('change keydown blur', '.user-name', function (ev) {
-    users[$(this).parents('.user').attr('id')].name = $(this).val();
-    updateStorage();
-});
-
-$('body').on('click', '.user-name', function (ev) {
-    ev.stopImmediatePropagation();
-    ev.stopPropagation();
-});
-
-var currentCounterUser;
-var currentDomUser;
-var startTS;
-var startValue;
-var currentInterval = 0;
-
-$('body').on('click touchstart', '.user', function (ev) {
-    var lastId = currentCounterUser ? currentCounterUser.id : null,
-        id = $(this).attr('id');
-    
-    // Stop current counter
-    if (currentInterval !== 0) {
-        currentDomUser.removeClass('counting');
-        
-        clearInterval(currentInterval);
-        currentCounterUser = null;
-        currentDomUser = null;
-        startTS = null;
-        startValue = null;
-        currentInterval = 0;
+      $item.attr('id', id);
+      addNewItem();
     }
-    
-    // Starts new counter if button different from current one
-    if (lastId !== id) {
-        currentCounterUser = users[id];
-        startTS = new Date().getTime();
-        currentDomUser = $(this);
-        startValue = currentCounterUser.counter;
-        
-        currentDomUser.addClass('counting');
+    if (id !== 'new') {
+      items[id].name = name;
+      updateStorageAndDisplay();
+    }
+  });
 
-        currentInterval = setInterval(function() {
-            currentCounterUser.counter = startValue + (new Date().getTime() - startTS);
-            currentDomUser.find(' .user-counter').html(formatTime(currentCounterUser.counter));
-            updateStorage();
+  // Item remove
+  $('body').on('click', '.item-remove', function (ev) {
+    var id = $(this).parents('.item').attr('id'),
+        item = items[id];
+
+    if (countingIntervalId && item.id === countingItem.id) {
+      countingIntervalId = clearInterval(countingIntervalId);
+    }
+
+    delete items[id];
+    $('#' + id).remove();
+    updateStorageAndDisplay();
+  });
+
+  // Counter
+  $('body').on('click', '.item:not(#new)', function (ev) {
+    var $item,
+        item;
+
+    // Prevents bubble clicks on close and input
+    if ($(ev.target).is('.item, .item-counter, .item-percent')) {
+      $item = $(ev.currentTarget);
+      item = items[$item.attr('id')];
+
+      if (countingIntervalId == null) {
+        $item.addClass('active');
+        $countingItem = $item;
+        countingItem = item;
+        countingInitDate = new Date().getTime();
+        countingInitValue = item.counter;
+
+        countingIntervalId = setInterval(function () {
+          var count = countingInitValue + new Date().getTime() - countingInitDate;
+          count = count - count % 1000;
+          $countingItem.find('.item-counter').html(timeToMinSec(count));
+          countingItem.counter = count;
+          updateStorageAndDisplay();
         }, 200);
+      } else {
+        $countingItem.removeClass('active');
+        if (item.id === countingItem.id) {
+          countingIntervalId = clearInterval(countingIntervalId);
+        } else {
+          $item.addClass('active');
+          $countingItem = $item;
+          countingItem = item;
+          countingInitDate = new Date().getTime();
+          countingInitValue = item.counter;
+        }
+      }
     }
-});
+  });
+
+  init();
+})();

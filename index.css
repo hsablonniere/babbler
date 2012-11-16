@@ -1,62 +1,216 @@
-html, body {
-    background: #333;
-    margin: 0;
+/* reset */
+
+h1,
+input,
+button {
+  padding: 0;
+  margin: 0;
 }
 
-.user-name,
-.user-start-stop,
-.user-remove {
-    background: #FFF;
-    border: none;
-    color: #000;
-    font: 20px/2 Arial, sans-serif;
-    padding: 0 10px;
+input,
+button {
+  background: #FFF;
+  border: none;
+  border-radius: 0;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
 }
 
-.user {
-    background: #269;
-    border: none;
-    margin: 10px;
-    padding: 10px;
+/* babbler */
+
+@-ms-viewport { width: device-width; }
+
+html {
+  background: #222;
 }
 
-.user-add {
-    background: transparent;
-    border: none;
-    color: #000;
-    font: 20px/2 Arial, sans-serif;
-    width: 100%;
+body,
+input,
+button {
+  font: bold 20px/1.5 Arial, sans-serif;
 }
 
-.user-counter {
-    color: #FFF;
-    display: inline;
-    font: bold 30px/1.33 Arial, sans-serif;
-    padding: 0 10px;
+body {
+  color: #FFF;
+  margin: 0 auto;
+  max-width: 700px;
 }
 
-.user-add-block {
-    border: none;
-    padding: 0;
-    margin: 10px 0;
+.main-header,
+.help-message {
+  background: #6A4A3C;
 }
 
-.user-add {
-    color: #777;
-    font: bold 30px/1.33 Arial, sans-serif;
+.main-header .help {
+  color: #6A4A3C;
 }
 
-.user-name {
-    border-radius: 0;
-    width: 150px;
+.main-header,
+.help-message,
+.item {
+  margin: 10px;
+  position: relative;
+  padding: 10px;
 }
 
-.user-remove {
-  color: #269;
-    float: right;
+.main-header,
+.item,
+.app-title,
+.help,
+.total-percent,
+.total-counter,
+.item-name-wrapper,
+.item-counter,
+.item-percent,
+.item-remove {
+  height: 40px;
+  line-height: 40px;
+}
+
+.app-title,
+.help,
+.total-counter,
+.total-percent,
+.item-name-wrapper,
+.item-counter,
+.item-percent,
+.item-remove {
+  position: absolute;
+}
+
+.app-title {
+  font-size: 20px;
+}
+
+.help,
+.item-remove {
+  width: 40px;
+}
+
+.help,
+.item-remove {
+  position: absolute;
+  right: 10px;
+}
+
+.help-message {
+  min-height: 40px;
+}
+
+.help-message.hidden {
+  display: none;
+}
+
+.help-message p {
+  font-size: 16px;
+  font-weight: normal;
+  margin: 5px 0;
+}
+
+.help-message .credits {
+  text-align: right;
+}
+
+.help-message .link {
+  background: white;
+  color: #6A4A3C;
   font-weight: bold;
+  padding: 5px 10px;
 }
 
-.counting {
-    background: orange;
+.item {
+  background: #00A0B0;  
+}
+
+.item .item-name,
+.item .item-remove {
+  color: #00A0B0;
+}
+
+.item.active {
+  background: #EB6841;
+}
+
+.item.active .item-name,
+.item.active .item-remove {
+  color: #EB6841;
+}
+
+#new .item-counter,
+#new .item-percent,
+#new .item-remove {
+  display: none;
+}
+
+.item-name-wrapper {
+  left: 10px;
+  right: 190px;
+}
+
+.item-name {
+  height: 100%;
+  padding: 0 5px;
+  width: 100%;
+}
+
+.item-name,
+.total-counter,
+.item-counter,
+.total-percent,
+.item-percent {
+  font-size: 16px;
+}
+
+.total-counter,
+.item-counter,
+.total-percent,
+.item-percent {
+  text-align: center;
+  width: 55px;
+}
+
+.total-counter,
+.item-counter {
+  right: 125px;
+}
+
+.total-percent,
+.item-percent {
+  right: 60px;
+}
+
+@media (min-width: 500px) {
+  .app-title {
+    font-size: 40px;
+  }
+
+  .item-name-wrapper {
+    right: 220px;
+  }
+
+  .item-name,
+  .total-counter,
+  .item-counter,
+  .total-percent,
+  .item-percent {
+    font-size: 20px;
+  }
+
+  .total-counter,
+  .item-counter,
+  .total-percent,
+  .item-percent {
+    width: 70px;
+  }
+
+  .total-counter,
+  .item-counter {
+    right: 140px;
+  }
+
+  .total-percent,
+  .item-percent {
+    right: 60px;
+  }
 }
