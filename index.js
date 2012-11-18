@@ -88,6 +88,14 @@
 
     // All the percents
     for (id in items) {
+      if (items[id].counter) {
+        $('#' + id + ' .item-zero').classList.remove('hidden');
+        $('#' + id + ' .item-remove').classList.add('hidden');
+      } else {
+        $('#' + id + ' .item-zero').classList.add('hidden');
+        $('#' + id + ' .item-remove').classList.remove('hidden');
+      }
+
       if (Object.keys(items).length > 1) {
         if (totalCounter > 0) {
           $('#' + id + ' .item-percent').innerHTML = (items[id].counter * 100 / totalCounter).toFixed(0) + '%';
@@ -185,13 +193,34 @@
     updateStorageAndDisplay();
   });
 
+  // Item to zero
+  on('body', 'click', function (ev) {
+    var id, item;
+
+    if (!ev.target.classList.contains('item-zero')) {
+      return;
+    }
+
+    id = ev.target.parentNode.id;
+    item = items[id];
+
+    item.counter = 0;
+    $('#' + id + ' .item-counter').innerHTML = timeToMinSec(0);
+    if (countingIntervalId != null && $countingItem.id === id) {
+      countingInitDate = new Date().getTime();
+      countingInitValue = item.counter;
+    }
+
+    updateStorageAndDisplay();
+  });
+
   // Counter
   on('body', 'click', function (ev) {
     var $item,
         item;
 
     // Prevents bubble clicks on close and input
-    if (ev.target.classList.contains('item')) {
+    if (ev.target.id !== 'new' && ev.target.classList.contains('item')) {
       $item = ev.target;
       item = items[$item.id];
     } else if (ev.target.classList.contains('item-counter') ||

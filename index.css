@@ -41,6 +41,10 @@ body {
   max-width: 700px;
 }
 
+.hidden {
+  display: none;
+}
+
 .main-header,
 .help-message {
   background: #6A4A3C;
@@ -54,8 +58,8 @@ body {
 .help-message,
 .item {
   margin: 10px;
-  position: relative;
   padding: 10px;
+  position: relative;
 }
 
 .main-header,
@@ -67,6 +71,7 @@ body {
 .item-name-wrapper,
 .item-counter,
 .item-percent,
+.item-zero,
 .item-remove {
   height: 40px;
   line-height: 40px;
@@ -79,6 +84,7 @@ body {
 .item-name-wrapper,
 .item-counter,
 .item-percent,
+.item-zero,
 .item-remove {
   position: absolute;
 }
@@ -88,11 +94,13 @@ body {
 }
 
 .help,
+.item-zero,
 .item-remove {
   width: 40px;
 }
 
 .help,
+.item-zero,
 .item-remove {
   position: absolute;
   right: 10px;
@@ -100,10 +108,6 @@ body {
 
 .help-message {
   min-height: 40px;
-}
-
-.help-message.hidden {
-  display: none;
 }
 
 .help-message p {
@@ -130,6 +134,7 @@ body {
 }
 
 .item .item-name,
+.item .item-zero,
 .item .item-remove {
   color: #00A0B0;
 }
@@ -139,12 +144,14 @@ body {
 }
 
 .item.active .item-name,
+.item.active .item-zero,
 .item.active .item-remove {
   color: #EB6841;
 }
 
 #new .item-counter,
 #new .item-percent,
+#new .item-zero,
 #new .item-remove {
   display: none;
 }
