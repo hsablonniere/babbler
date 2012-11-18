@@ -47,11 +47,11 @@ body {
 
 .main-header,
 .help-message {
-  background: #6A4A3C;
+  background: #424254;
 }
 
 .main-header .help {
-  color: #6A4A3C;
+  color: #3A462A;
 }
 
 .main-header,
@@ -123,30 +123,30 @@ body {
 
 .help-message .link {
   background: white;
-  color: #6A4A3C;
+  color: #3A462A;
   font-weight: bold;
   padding: 5px 10px;
 }
 
 .item {
-  background: #00A0B0;
+  background: #64908A;
   cursor: pointer;
 }
 
 .item .item-name,
 .item .item-zero,
 .item .item-remove {
-  color: #00A0B0;
+  color: #64908A;
 }
 
 .item.active {
-  background: #EB6841;
+  background: #CC2A41;
 }
 
 .item.active .item-name,
 .item.active .item-zero,
 .item.active .item-remove {
-  color: #EB6841;
+  color: #CC2A41;
 }
 
 #new .item-counter,
