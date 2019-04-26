@@ -7,6 +7,8 @@
 
         events = events.split(' ');
 
+        // test foobar
+
         for (i = 0; i < events.length; i++) {
           $(selector).addEventListener(events[i], callback, false);
         }
